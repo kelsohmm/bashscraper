@@ -24,7 +24,7 @@ object ParsePosts
   }
 
   private def readPostPoints(postElement: Element) = {
-    raw"\d+".r
+    raw"-?\d+".r
       .findFirstMatchIn(postElement >> text(".bar .points"))
       .getOrElse("")
       .toString

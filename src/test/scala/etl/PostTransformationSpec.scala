@@ -18,6 +18,13 @@ class PostTransformationSpec extends FlatSpec with Matchers {
     ) should equal (ParsePosts.fromDoc(getDoc("latest_single_post.html")).head)
   }
 
+  it should "parse two posts" in {
+    val post1 = Post(id = 1, points = 1, content = "POST1")
+    val post2 = Post(id = 2, points = -1, content = "POST2")
+    ParsePosts.fromDoc(getDoc("latest_two_posts.html")) should equal (List(post1, post2))
+  }
+
+
   it should "throw exception on invalid doc" in {
     an [IllegalArgumentException] should be thrownBy ParsePosts.fromDoc(getDoc("latest_post_invalid_id.html"))
     an [IllegalArgumentException] should be thrownBy ParsePosts.fromDoc(getDoc("latest_post_invalid_points.html"))
