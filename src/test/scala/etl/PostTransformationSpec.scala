@@ -24,6 +24,11 @@ class PostTransformationSpec extends FlatSpec with Matchers {
     ParsePosts.fromDoc(getDoc("latest_two_posts.html")) should equal (List(post1, post2))
   }
 
+  it should "safely parse multiline content" in {
+    val result = ParsePosts.fromDoc(getDoc("latest_multiline_post.html")).head
+    result.content should equal ("&lt;USR1&gt; LINE1 \n<br> &lt;USR2&gt; LINE2")
+  }
+
 
   it should "throw exception on invalid doc" in {
     an [IllegalArgumentException] should be thrownBy ParsePosts.fromDoc(getDoc("latest_post_invalid_id.html"))

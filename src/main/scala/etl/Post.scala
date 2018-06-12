@@ -20,7 +20,7 @@ object ParsePosts
     )
 
   private def escapedPostContent(postElement: Element) = {
-    scala.xml.Utility.escape(postElement >> text(".post-content"))
+    (postElement >> element(".post-content")).innerHtml
   }
 
   private def readPostPoints(postElement: Element) = {
