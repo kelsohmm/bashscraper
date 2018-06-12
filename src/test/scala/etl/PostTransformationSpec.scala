@@ -29,10 +29,9 @@ class PostTransformationSpec extends FlatSpec with Matchers {
     result.content should equal ("&lt;USR1&gt; LINE1 \n<br> &lt;USR2&gt; LINE2")
   }
 
-
-  it should "throw exception on invalid doc" in {
-    an [IllegalArgumentException] should be thrownBy ParsePosts.fromDoc(getDoc("latest_post_invalid_id.html"))
-    an [IllegalArgumentException] should be thrownBy ParsePosts.fromDoc(getDoc("latest_post_invalid_points.html"))
-    an [NoSuchElementException] should be thrownBy ParsePosts.fromDoc(getDoc("latest_post_missing_content.html"))
+  it should "ignore invalid posts" in {
+    ParsePosts.fromDoc(getDoc("latest_post_invalid_id.html")) should equal (List())
+    ParsePosts.fromDoc(getDoc("latest_post_invalid_points.html")) should equal (List())
+    ParsePosts.fromDoc(getDoc("latest_post_missing_content.html")) should equal (List())
   }
 }

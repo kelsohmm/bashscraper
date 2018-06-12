@@ -8,16 +8,25 @@ case class Post(id: Long, points: Long, content: String)
 
 object ParsePosts
 {
-  def fromDoc(doc: Document): List[Post] = doc
-                                          .extract(elementList("#content .post"))
-                                          .map(elem => elementToPost(elem))
+  def fromDoc(doc: Document): List[Post] = {
+    doc
+      .extract(elementList("#content .post"))
+      .flatMap(elem => elementToPost(elem))
+  }
+
 
   private def elementToPost(postElement: Element) =
-    Post(
-      id = readPostId(postElement),
-      points = readPostPoints(postElement),
-      content = escapedPostContent(postElement)
-    )
+    try{
+      Some(Post(
+        id = readPostId(postElement),
+        points = readPostPoints(postElement),
+        content = escapedPostContent(postElement)
+      ))
+    }
+  catch{
+    case _: IllegalArgumentException => None
+    case _: NoSuchElementException => None
+  }
 
   private def escapedPostContent(postElement: Element) = {
     (postElement >> element(".post-content")).innerHtml
