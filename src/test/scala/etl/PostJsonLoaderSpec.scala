@@ -16,7 +16,7 @@ class PostJsonLoaderSpec extends FlatSpec with Matchers {
 
     loader.initJson()
     for(post <- posts) loader.write(post)
-    loader.closeJson()
+    loader.close()
 
     writer.toString
   }

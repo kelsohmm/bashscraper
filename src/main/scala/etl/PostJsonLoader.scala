@@ -1,13 +1,16 @@
 package etl
 
-import java.io.Writer
+import java.io.{File, PrintWriter, Writer}
 
 class PostJsonLoader(writer: Writer)
 {
   private var firstSaved = false
 
   def initJson() : Unit = writer.write("{\"posts\": [")
-  def closeJson(): Unit = writer.write("]}")
+  def close(): Unit = {
+    writer.write("]}")
+    writer.close()
+  }
   def write(post: Post): Unit = {
     if(firstSaved)
       writer.write(", ")
@@ -18,4 +21,10 @@ class PostJsonLoader(writer: Writer)
 
   private def makePostString(post: Post): String =
     s"""{"id": ${post.id}, "points": ${post.points}, "content": "${post.content}"}"""
+}
+
+object PostJsonLoader {
+  def toFile(filepath: String): PostJsonLoader = {
+    new PostJsonLoader(new PrintWriter(new File(filepath )))
+  }
 }
