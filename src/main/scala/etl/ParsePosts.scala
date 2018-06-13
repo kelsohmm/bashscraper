@@ -28,7 +28,9 @@ object ParsePosts
     }
 
   private def escapedPostContent(postElement: Element) = {
-    (postElement >> element(".post-content")).innerHtml
+    (postElement >> element(".post-content"))
+      .innerHtml
+      .replace("\n", "\\n")
   }
 
   private def readPostPoints(postElement: Element) = {

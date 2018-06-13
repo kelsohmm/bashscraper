@@ -26,7 +26,7 @@ class ParsePostsSpec extends FlatSpec with Matchers {
 
   it should "safely parse multiline content" in {
     val result = ParsePosts.fromDoc(getDoc("latest_multiline_post.html")).head
-    result.content should equal ("&lt;USR1&gt; LINE1 \n<br> &lt;USR2&gt; LINE2")
+    result.content should equal ("&lt;USR1&gt; LINE1 \\n<br> &lt;USR2&gt; LINE2")
   }
 
   it should "ignore invalid posts" in {
