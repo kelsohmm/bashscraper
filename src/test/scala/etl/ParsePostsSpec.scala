@@ -14,7 +14,7 @@ class ParsePostsSpec extends FlatSpec with Matchers {
     Post(
       id = 123,
       points = 321,
-      content = "&lt;USR&gt; abcdefghijkmnoprstuvwxyząćęóńłźż"
+      content = "&lt;USR&gt; abcdefghijkmnoprstuvwxyząćęóńłźż\\\""
     ) should equal (ParsePosts.fromDoc(getDoc("latest_single_post.html")).head)
   }
 

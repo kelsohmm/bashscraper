@@ -31,6 +31,7 @@ object ParsePosts
     (postElement >> element(".post-content"))
       .innerHtml
       .replace("\n", "\\n")
+      .replace("\"", "\\\"")
   }
 
   private def readPostPoints(postElement: Element) = {
