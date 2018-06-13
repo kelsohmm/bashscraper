@@ -24,7 +24,7 @@ class PostJsonLoader(writer: Writer)
 }
 
 object PostJsonLoader {
-  def toFile(filepath: String): PostJsonLoader = {
-    new PostJsonLoader(new PrintWriter(new File(filepath )))
+  def toFile(file: File): PostJsonLoader = {
+    new PostJsonLoader(new PrintWriter(file))
   }
 }
