@@ -1,8 +1,6 @@
-import net.ruippeixotog.scalascraper.browser.JsoupBrowser
-import etl.{ParsePosts, PostJsonLoader}
+import etl.{LatestPagesExtraction, ParsePosts, PostJsonLoader}
 import utils.ScrapingConfig
 
-import scala.util.Failure
 
 object ExecuteScraping {
   val configFile = "default.config"
@@ -11,16 +9,15 @@ object ExecuteScraping {
       case Right(errorMsg) => println(errorMsg)
       case Left(config) =>
         val loader = PostJsonLoader.toFile(config.output)
-        loader.initJson()
-        val urls = getPagesUrls(config.pageStart, config.pageEnd)
 
-        urls
-          .map(url => JsoupBrowser().get(url))
-          .flatMap(doc => ParsePosts.fromDoc(doc))
-          .foreach(post => loader.write(post))
-        loader.close()
+        loader.initJson()
+        try {
+          LatestPagesExtraction.stream(config.pageStart, config.pageEnd)
+            .flatMap(doc => ParsePosts.fromDoc(doc))
+            .foreach(post => loader.write(post))
+        } finally {
+          loader.close()
+        }
     }
 
-  private def getPagesUrls(start: Int, end: Int) =
-    (start to end).map(pageNumber =>  s"http://bash.org.pl/latest/?page=$pageNumber")
 }
