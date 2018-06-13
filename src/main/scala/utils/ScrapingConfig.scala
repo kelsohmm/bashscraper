@@ -53,7 +53,7 @@ object ScrapingConfig {
       val filepath = config.getString("outputFilepath")
       val file = new File(filepath)
 
-      if ((file.exists && !file.canWrite) || !file.createNewFile)
+      if (!file.exists && !file.createNewFile)
         throw new IllegalArgumentException(s"Cant write to 'outputFilepath': ${file.getAbsolutePath}")
 
       file
